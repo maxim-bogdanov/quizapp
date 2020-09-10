@@ -1,0 +1,77 @@
+.first-screen {
+
+  // display: none;
+
+  position: absolute;
+  z-index: 1;
+
+  height: 100vh;
+  width: 100vw;
+
+  background-color: #000;
+  // Константы
+  @mixin mod($mod) {
+    @include modifier("first-screen", $mod) {
+      @content;
+    }
+  }
+
+  &_active {
+    z-index: 2;
+  }
+
+  .header__score {
+    display: none;
+  }
+
+  .header__back {
+    display: none;
+  }
+
+  &__left {
+    position: absolute;
+    z-index: 2;
+  }
+  &__line {
+    position: absolute;
+    bottom: 74px;
+    left: 75px;
+
+    color: white;
+  }
+  &__redfig {
+    width: 50vw;
+    // height: 100vh;
+  }
+  &__right {
+    position: absolute;
+    left: 524px;
+    z-index: 1;
+    height: 100vh;
+    img {
+      // width: 66vw;
+      // height: 100vh;
+    }
+  }
+  &__title {
+    position: absolute;
+    top: 48%;
+    right: -210px;
+
+    font-size: 42px;
+    font-family: "Glober Bold", sans-serif;
+    text-align: center;
+    color: #f2f2f2;
+
+    transform: translate(-50%, -50%);
+  }
+  &__logo { 
+    img {
+      position: absolute;
+      top: 53%;
+      left: 45%;
+  
+      transform: translate(-50%, -50%);
+    }
+  }
+}

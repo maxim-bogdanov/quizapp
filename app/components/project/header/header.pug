@@ -1,0 +1,14 @@
+mixin header(content, params)
+  header.header&attributes(attributes)
+    .header__top
+      .header__name 
+        .header__name-text !{copyright.title.content}
+        img(src=copyright.title.img)
+        a.header__back(href="#")
+          .header__back-text !{copyright.back.content}
+          img(src=copyright.back.img)
+    .header__score
+      .header__score-inner
+        img(src=copyright.score.img)
+        .header__score-title !{copyright.score.text}
+        .header__score-num 0

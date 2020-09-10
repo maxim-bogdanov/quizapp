@@ -1,0 +1,10 @@
+mixin first-screen(content, params)
+  .first-screen.first-screen_active&attributes(attributes)
+    .first-screen__left
+      a.first-screen__logo(href="#")
+        img(src=copyright.firstScreen.logo)
+      img.first-screen__redfig(src=copyright.firstScreen.redfigure)
+    .first-screen__right
+      .first-screen__title !{copyright.firstScreen.title}
+      img(src=copyright.firstScreen.gradient)
+      

@@ -1,0 +1,27 @@
+.downline {
+  // Константы
+  @mixin mod($mod) {
+    @include modifier("downline", $mod){
+      @content;
+    }
+  }
+  position: absolute;
+  z-index: 10;
+
+  bottom: 77px;
+  left: 75px;
+
+  color: white;
+
+  &__quiz {
+    display: none;
+  }
+
+  &__first {
+    display: none;
+  }
+
+  &_active {
+    display: block;
+  }
+}

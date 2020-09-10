@@ -1,0 +1,126 @@
+.circles {
+  // Константы
+  @mixin mod($mod) {
+    @include modifier("circles", $mod){
+      @content;
+    }
+  }
+  width: 480px;
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  color: #fff;
+
+  position: absolute;
+  z-index: 10;
+  bottom: 59px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  &_active {
+    display: flex;
+  }
+
+  .circle {
+    width: 40px;
+    height: 40px;
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &__inner {
+      font-family: 'Cera Bold', sans-serif;
+      font-size: 28px;
+    }
+
+    &__line {
+
+
+
+      &-opacity {
+        position: absolute;
+        z-index: 1;
+        left: 100%;
+        top: 50%;
+        transform: translateY(-50%);
+
+        width: 69px;
+        height: 0px;
+
+        border-top: 1px solid rgba($color: #fff, $alpha: 0.3);
+        // background-color: #fff;
+
+        // &:last-child {
+        //   width: 0;
+        //   border-top: 0;
+        // }
+
+        &_last {
+          width: 0;
+          border-top: 0;
+        }
+      }
+      
+
+
+
+      &-full {
+        position: absolute;
+        z-index: 2;
+
+        left: 100%;
+        top: 50%;
+        transform: translateY(-50%);
+
+        width: 0px;
+        height: 0px;
+
+        border-top: 0px solid #fff;
+
+        opacity: 1;
+      
+        transition: width 1000ms ease-in-out;	
+
+        &_active {
+          border-top: 1px solid #fff;
+          width: 69px;
+        }
+        
+        &_last {
+          width: 0;
+        }
+      }
+    }
+
+
+
+
+    &::before {
+      content: '';
+      position: absolute;
+      z-index: 2;
+      left: 50%;
+      top: 50%;
+
+      width: 40px;
+      height: 40px;
+
+      transform: translate(-50%, -50%);
+      width: 35px;
+      height: 35px;
+      border: 2.5px dotted #fff;
+      background-color: trasnporent;
+      border-radius: 50%;
+      opacity: 0.3;
+    }
+
+    &__full {
+      position: absolute;
+      z-index: 3;
+    }
+  }
+
+
+}

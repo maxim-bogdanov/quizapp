@@ -1,0 +1,15 @@
+mixin quiz(content, params)
+  .quiz&attributes(attributes)
+    |<script type="text/template" class="__tpl">
+    .quiz__left
+      img.quiz__logo(src="{{img}}")   
+      img.quiz__redfig(src=copyright.firstScreen.redfigure)
+    .quiz__content
+      .quiz__question
+        .quiz__title {{question}}
+        .quiz__answers
+          |{{#each answers}}
+          .quiz__answer(data-isCorrect="{{this.isCorrect}}") {{this.answer}}
+          |{{/each}}
+      img(src=copyright.quiz.gradient)
+    |</script>

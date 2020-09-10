@@ -1,0 +1,8 @@
+.footer {
+  // Константы
+  @mixin mod($mod) {
+    @include modifier("footer", $mod){
+      @content;
+    }
+  }
+}

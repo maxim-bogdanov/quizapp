@@ -1,83 +1,22 @@
 {
-  "og": {
-    "title": "<?= $share->title ?>",
-    "description": "<?= $share->description ?>",
-    "canonical_url": "<?= $share->canonical_url ?>",
-    "fb_app_id": "",
-    "image": {
-      "default": {
-        "val": "<?= $share->image ?>",
-        "width": 1200,
-        "height": 630
-      }
-    },
-    "#image": {
-      "default": {
-        "val": "<?= $share->image['fb'] ?>",
-        "width": 1200,
-        "height": 630
-      },
-      "vk": "<?= $share->image['vk'] ?>",
-      "tw": "<?= $share->image['tw'] ?>"
-    }
-  },
-
-  "firstScreen": {
-    "title": "Для того, чтобы запустить <br> инсталляцию, нажмите на кнопку, <br> напротив колбы с водой.",
-    "logo": "images/water/water.png",
-    "gradient": "images/water/gradient-first.png",
-    "redfigure": "images/water/redfigure.png"
-  },
-
-  "downline": {
-      "img_first": "images/water/leftarrow.png",
-      "img_quiz": "images/water/leftarrow-quiz.png"
-  },
-
-  "quiz": {
-    "gradient": "images/water/gradient-quiz.png"
-  },
-
-  "quiz_nopic": {
-    "gradient": "images/water/gradient-first.png",
-    "redfigure_right": "images/water/redfigure-right.png",
-    "redfigure_left": "images/water/redfigure-left.png"
-  },
-
-  "title": {
-    "content":"Вода. Викторина.",
-    "img": "images/water/header__name.png"
-  },
-  "back": {
-      "content": "В начало",
-      "class": "header__back_visible",
-      "img": "images/water/header__back.png"
-  },
-  "score": {
-    "text":"Набрано <br> баллов:",
-    "img": "images/water/score.png",
-    "class": "header__score_visible",
-    "class2": "header__score_end"
-  },
-
 
         
-    "quetions": [
+    "questions": [
         {
             "question": "Что такое рекультивация земель?",
             "img": "images/water/1.png",
             "answers": [
                 {
                     "answer": "утилизация плодородного слоя почвы",
-                    "isTrue": "false"
+                    "isCorrect": "false"
                 },
                 {
                     "answer": "комплекс мер по восстановлению ландшафтов.",
-                    "isTrue": "true"
+                    "isCorrect": "true"
                 },
                 {
                     "answer": "процесс бурения горных пород",
-                    "isTrue": "false"
+                    "isCorrect": "false"
                 }
             ]
         },
@@ -87,15 +26,15 @@
             "answers": [
                 {
                     "answer": "техническая рекультивация",
-                    "isTrue": "true"
+                    "isCorrect": "true"
                 },
                 {
                     "answer": "механическая реконструкция",
-                    "isTrue": "false"
+                    "isCorrect": "false"
                 },
                 {
                     "answer": "эрозия почв",
-                    "isTrue": "false"
+                    "isCorrect": "false"
                 }
             ]
         },
@@ -105,15 +44,15 @@
             "answers": [
                 {
                     "answer": "биологическая рекультивация",
-                    "isTrue": "false"
+                    "isCorrect": "false"
                 },
                 {
                     "answer": "шламонакопление",
-                    "isTrue": "false"
+                    "isCorrect": "false"
                 },
                 {
                     "answer": "безамбарное бурение!",
-                    "isTrue": "true"
+                    "isCorrect": "true"
                 }
             ]
         },
@@ -123,15 +62,15 @@
             "answers": [
                 {
                     "answer": "геологическая реконструкция",
-                    "isTrue": "false"
+                    "isCorrect": "false"
                 },
                 {
                     "answer": "биологическая рекультивация",
-                    "isTrue": "true"
+                    "isCorrect": "true"
                 },
                 {
                     "answer": "технологическая герметизация",
-                    "isTrue": "false"
+                    "isCorrect": "false"
                 }
             ]
         },
@@ -141,15 +80,15 @@
             "answers": [
                 {
                     "answer": "ликвидация шламонакопителей",
-                    "isTrue": "true"
+                    "isCorrect": "true"
                 },
                 {
                     "answer": "строительство факелов по сжиганию ПНГ",
-                    "isTrue": "false"
+                    "isCorrect": "false"
                 },
                 {
                     "answer": "использование вод из поверхностных источников",
-                    "isTrue": "false"
+                    "isCorrect": "false"
                 }
             ]
         }
@@ -166,7 +105,5 @@
             "img": "images/water/goodboy.png"
         }
     }
-     
-
-
+   
 }
