@@ -4,6 +4,7 @@ import {
 } from "../../framework/jquery/plugins/plugins";
 import {eventBus, setQuestionNumber, getQuestionNumber } from '../../project/utils/shared';
 
+
 class FirstScreen extends Plugin {
   // eslint-disable-next-line no-useless-constructor
   constructor($element) {
@@ -24,9 +25,7 @@ class FirstScreen extends Plugin {
       })
       
     $('.first-screen__logo', $element).on('click', function(){
-      // $(eventBus).trigger('open-video');
-      $(eventBus).trigger('activate-quiz');
-      $(eventBus).trigger('change-quiz');
+      $(eventBus).trigger('activate:video');
     });
 
 

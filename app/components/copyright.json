@@ -59,6 +59,9 @@
     "class": "header__score_visible",
     "class2": "header__score_end"
   },
+    "video": {
+        "src": "video/video.mp4"
+    },
 
 
         

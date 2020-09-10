@@ -4,7 +4,7 @@ import {
 } from "../../framework/jquery/plugins/plugins";
 import {eventBus, setQuestionNumber, getQuestionNumber, setIsFinished, data } from '../utils/shared';
 
-const TIME_FADING = 300;
+const TIME_FADING = 300;  
 
 class quiz extends Plugin {
 
@@ -38,6 +38,7 @@ class quiz extends Plugin {
     const tpl = Handlebars.compile($('.__tpl',$element).text());
 
     let isFirst;
+
     
     function fadeOutContent()  {
       isFirst = this.#isFirst = getQuestionNumber() ? false : true;

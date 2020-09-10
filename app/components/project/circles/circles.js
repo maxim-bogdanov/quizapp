@@ -24,8 +24,7 @@ class Circles extends Plugin {
       $($element).removeClass('circles_active');
     });
 
-    $(eventBus).on('first-screen:went', function(){
-      console.log('first-screen:went');
+    $(eventBus).on('page-reset', function(){
       $('.circle__line-full', $circle).removeClass('circle__line-full_active');
       // $('.circle__full', $element).remove();
 
@@ -65,13 +64,10 @@ class Circles extends Plugin {
       circle
         .circleProgress('value', 0.75)
         .circleProgress('value', 1.0)
-        // .on('circle-animation-end', function(){
         setTimeout(()=>{
           console.log('draw the line');
           $('.circle__line-full').eq( num - 1 ).addClass('circle__line-full_active');
-        }, 1000 )
-        // })
-      ;
+        }, 1000 );
     });
 
   

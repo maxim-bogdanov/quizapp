@@ -2,6 +2,7 @@ import '../components/project/project';
 import '../components/project/circles/circles';
 import { eventBus, setQuestionNumber, getQuestionNumber, setScore,
    getScore, setIsFinished, getIsFinished, setData } from '../components/project/utils/shared';
+import { Timer } from '../components/project/utils/timer';
 
 global.jQuery = global.$ = $;
 global.eventBus = window;
@@ -12,30 +13,20 @@ function onDocumentReady() {
   if ($.fn.initPlugins) {
     $(document.body).initPlugins();
   }
-  console.log('json');
+
+  let timer;
+  const TIME_AFK = 30;
 
   $.getJSON('data/data.json', function (data) {
     setQuestionNumber();
-    console.log('json');
-    // $(eventBus).trigger('document:ready', data);
+    setData(data);
   });
 
-  // $(eventBus).on('activate:downline-first', function (e, data) {
-  //   $(eventBus).trigger('downline-first:activated', data);
-  // });
 
-  // $(eventBus).on('activate:downline-quiz', function (e, data) {
-  //   $(eventBus).trigger('downline-quiz:activated', data);
-  // });
-
-
-  $(eventBus).on('open-video', function () {
-    $(eventBus).trigger('video-opened');
+  $(eventBus).on('activate:video', function () {
+    $(eventBus).trigger('first-screen:deactivated');
+    $(eventBus).trigger('video:activated');
   });
-
-  // $(eventBus).on('activate:first-screen', function () {
-  //   $(eventBus).trigger('first-screen:activated');
-  // });
 
   $(eventBus).on('change-score', function () {
     setScore(getScore() + 1);
@@ -43,45 +34,32 @@ function onDocumentReady() {
   });
 
   $(eventBus).on('activate-quiz', function () {
-    setQuestionNumber(0);
+    setQuestionNumber();
     setIsFinished();
-    // $(eventBus).trigger('activate:downline');
-    $(eventBus).trigger('first-screen:deactivated');
+    $(eventBus).trigger('video:deactivated');
     $(eventBus).trigger('quiz-activated');
+    timer = new Timer(TIME_AFK);
   });
 
   $(eventBus).on('change-quiz', function () {
+    timer.restart();
     $(eventBus).trigger('quiz-changed');
     setQuestionNumber(getQuestionNumber() + 1);
+    timer = new Timer(TIME_AFK);
   });
 
   $(eventBus).on('activate:end-screen', function () {
-    // $(eventBus).trigger('activate:downline');
+    timer.restart();
     $(eventBus).trigger('quiz-deactivated');
     $(eventBus).trigger('end-screen:activated');
+    timer = new Timer(TIME_AFK);
   });
 
   $(eventBus).on('reset-page', function(){
     setScore();
-
+    timer.restart();
     $(eventBus).trigger('page-reset');
   });
-
-  // $(eventBus).on('go:first-screen', function(){
-  //   setScore();
-
-  //   if (getIsFinished()) {
-  //     $(eventBus).trigger('end-screen:activated');
-  //     $(eventBus).trigger('activate:first-screen');
-  //   }
-  //   else {
-  //     $(eventBus).trigger('activate-quiz');
-  //   }
-  //   $(eventBus).trigger('first-screen:went');
-  //   $(eventBus).trigger('score-change');
-
-  // });
-
 }
 
 

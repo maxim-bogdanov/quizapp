@@ -2,7 +2,7 @@ import {
   registerPlugins,
   Plugin
 } from "../../framework/jquery/plugins/plugins";
-import {eventBus, setQuestionNumber, getQuestionNumber, getScore } from '../../project/utils/shared';
+import {eventBus, setQuestionNumber, getQuestionNumber, getScore, data } from '../../project/utils/shared';
 
 class EndScreen extends Plugin {
   // eslint-disable-next-line no-useless-constructor
