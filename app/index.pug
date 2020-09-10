@@ -1,0 +1,9 @@
+extends components/project/custom-page/custom-page
+
+
+prepend title
+  -let title = projectDescription;
+
+block content
+  p(style='text-align:center;')
+    a(href='example.html') Посмотреть пример (что бы удалить пример выполните #[i: b node scripts/remove-example] или #[i: b _remove-example.bat])
