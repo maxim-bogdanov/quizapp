@@ -40,7 +40,8 @@ class Circles extends Plugin {
     });
 
 
-    $(eventBus).on('quiz-changed quiz-nopic:changed', function() {
+    $(eventBus).on('circle-quiz', function() {
+      console.log('circle');
       circle = $circle.eq( getQuestionNumber() );
       circle.circleProgress({
         size: 40,

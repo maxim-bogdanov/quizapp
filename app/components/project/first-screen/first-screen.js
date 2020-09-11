@@ -11,7 +11,7 @@ class FirstScreen extends Plugin {
     super($element);
     
 
-    $(window).trigger('activate:downline-first');
+    // $(window).trigger('activate:downline-first');
 
     $(eventBus)
       .on('first-screen:activated', function() {

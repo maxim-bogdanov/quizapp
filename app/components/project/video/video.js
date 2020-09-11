@@ -13,6 +13,7 @@ class Video extends Plugin {
 
     $('#video').on('ended', function(){
       $(eventBus).trigger('activate-quiz');
+      $(eventBus).trigger('circle-quiz');
       $(eventBus).trigger('change-quiz');
     })
 
@@ -48,6 +49,7 @@ class Video extends Plugin {
 
       $('.video__btn-close', $element).on('click', function(){
         $(eventBus).trigger('activate-quiz');
+        $(eventBus).trigger('circle-quiz');
         $(eventBus).trigger('change-quiz');
       });
 

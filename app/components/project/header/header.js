@@ -29,11 +29,6 @@ class Header extends Plugin {
       $('.header__score-inner', $element).removeClass('header__score-inner_end');
     })
     .on('page-reset',function(){
-      // $(eventBus).trigger('score-change');
-      // $(eventBus).trigger('first-screen:activated');
-      // $(eventBus).trigger('quiz-deactivated');
-      // $(eventBus).trigger('end-screen:deactivated');
-      // $(eventBus).trigger('downline-first:activated');
       $(eventBus).trigger('score-change');
     });
 

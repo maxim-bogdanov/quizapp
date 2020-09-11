@@ -64,6 +64,7 @@ class quiz extends Plugin {
 
     const changeInnerPart = () => {
       let num = getQuestionNumber();
+      
 
       const questionData = data.questions[num];
 
@@ -73,6 +74,7 @@ class quiz extends Plugin {
         $(eventBus).trigger('change:quiz-nopic');
         return;
       }
+      $(eventBus).trigger('circle-quiz');
       $(eventBus).trigger('start-timer');
       $element.empty().append(tpl(questionData));
   
