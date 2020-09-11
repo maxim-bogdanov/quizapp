@@ -5,7 +5,8 @@ import {
 import {eventBus, setQuestionNumber, getQuestionNumber, setIsFinished, data } from '../utils/shared';
 import { Timer } from '../utils/timer';
 
-const TIME_FADING = 300;  
+const TIME_FADING = 300;
+const coordFade = 230;
 
 class quiz extends Plugin {
 
@@ -54,11 +55,14 @@ class quiz extends Plugin {
       updateLinks();
   
       //FadeOut
-      gsap.to($logo,  0.2, { opacity: 0 });
-      gsap.to($question,  0.3, {
-          opacity: 0,
-          delay: 0.2,
-          onComplete: changeInnerPart
+      gsap.to($question,  1.5, {
+        x: coordFade,
+        opacity: 0
+      })
+      gsap.to($logo,  1.5, {
+        x: -coordFade,
+        opacity: 0,
+        onComplete: changeInnerPart
       })
     }
 
@@ -94,13 +98,19 @@ class quiz extends Plugin {
   
         setQuestionNumber(getQuestionNumber() + 1);
 
-        setTimeout(this.changePage, 1800);
+        setTimeout(this.changePage, 1200);
       });
   
       // FadeIn
-      gsap.from($logo, .5, { x: 0, opacity: 0, scale: 0.8});
-      gsap.from($question, .7, {y: 50, opacity: 0, delay: .5});
-  
+      // gsap.from($logo, .5, { x: 0, opacity: 0, scale: 0.8});
+      // gsap.from($question, .7, {y: 50, opacity: 0, delay: .5});
+      gsap.from($question,  1.5, {
+        x: -coordFade,
+        opacity: 0
+      })
+      gsap.from($logo,  1.5, {
+        x: -coordFade
+      })
     } 
   }
 

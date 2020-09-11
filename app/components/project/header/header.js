@@ -10,11 +10,15 @@ class Header extends Plugin {
   constructor($element) {
     super($element);
     $(eventBus)
-    .on('quiz-activated end-screen:activated', function(){
-      $('.header__back', $element).addClass('header__back_active');
+    .on('quiz-activated', function(){
+      let $headerBack = $('.header__back', $element);
+      $headerBack.addClass('header__back_active');
       $('.header__score', $element).addClass('header__score_active');
+      gsap.from($headerBack,  1.5, {
+        x: 230
+      })
     })
-    .on('quiz-deactivated end-screen:deactivated', function(){
+    .on('end-screen:deactivated', function(){
       $('.header__back', $element).removeClass('header__back_active');
       $('.header__score', $element).removeClass('header__score_active');
     })

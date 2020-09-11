@@ -56,9 +56,15 @@
     z-index: 1;
     height: 100vh;
 
-    img {
+    &-gradient {
       // width: 66vw;
       // height: 100vh;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+
+      height: 100vh;
     }
   }
   &__title {

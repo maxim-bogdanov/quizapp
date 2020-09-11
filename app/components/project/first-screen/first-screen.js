@@ -10,9 +10,6 @@ class FirstScreen extends Plugin {
   constructor($element) {
     super($element);
     
-
-    // $(window).trigger('activate:downline-first');
-
     $(eventBus)
       .on('first-screen:activated', function() {
         $element.addClass('first-screen_active');
@@ -26,6 +23,7 @@ class FirstScreen extends Plugin {
       
     $('.first-screen__logo', $element).on('click', function(){
       $(eventBus).trigger('activate:video');
+      $(eventBus).trigger('first-screen:activated');
     });
 
 

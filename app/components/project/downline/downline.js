@@ -17,18 +17,6 @@ class Downline extends Plugin {
       $('.downline__quiz',$element).addClass('downline_active');
       $('.downline__first',$element).removeClass('downline_active');
     })
-      // .on('downline-first:activated', function(data) {
-      //   $('.downline__first',$element).addClass('downline_active');
-      //   $('.downline__quiz',$element).remove('downline_active');
-      // })
-      // .on('downline-quiz:activated', function(data) {
-      //   $('.downline__quiz',$element).addClass('downline_active');
-      //   $('.downline__first',$element).removeClass('downline_active');
-      // })
-      // .on('page-reset', function() {
-      //   $(eventBus).on('downline-first:activated');
-      // });
-
 
   }
 }

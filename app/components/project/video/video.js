@@ -6,20 +6,16 @@ import { eventBus, getQuestionNumber, getIsBack, setIsBack, data } from '../util
 import 'jquery-circle-progress';
 import { css } from "jquery-circle-progress";
 
+const FADING_VIDEO = 2;
+
 class Video extends Plugin {
   // eslint-disable-next-line no-useless-constructor
   constructor($element) {
     super($element);
 
-    $('#video').on('ended', function(){
-      $(eventBus).trigger('activate-quiz');
-      $(eventBus).trigger('circle-quiz');
-      $(eventBus).trigger('change-quiz');
-    })
-
-
     $(eventBus)
       .on('video:activated', function(){
+        $('.video-media',$element).addClass('video-media_active');
         $($element).addClass('video_active');
 
         video.play();
@@ -38,21 +34,32 @@ class Video extends Plugin {
           fill: {color: 'red'},
           emptyFill: "#fff"
         })
-        $('.video__btn-close canvas').addClass('video__btn-close_full');
+        $('.video__btn-close canvas', $element).addClass('video__btn-close_full');
+
+        setTimeout( () => {
+          $('.video__btn-close', $element).addClass('video__btn-close_active');
+        }, FADING_VIDEO * 1000);
+
       })
       .on('video:deactivated', function(){
         $($element).removeClass('video_active');
+        $('.video-media',$element).removeClass('video-media_active');
+        $('.video__btn-close', $element).removeClass('video__btn-close_active');
       })
       .on('page-reset', function(){
         video.load();
       });
 
-      $('.video__btn-close', $element).on('click', function(){
-        $(eventBus).trigger('activate-quiz');
-        $(eventBus).trigger('circle-quiz');
-        $(eventBus).trigger('change-quiz');
-      });
+      $('#video').on('ended', this.closeVideo);
+      $('.video__btn-close', $element).on('click', this.closeVideo);
 
+  }
+
+  closeVideo() {
+    $(eventBus).trigger('activate-quiz');
+    $(eventBus).trigger('first-screen:deactivated');
+    $(eventBus).trigger('circle-quiz');
+    $(eventBus).trigger('change-quiz');
   }
 
 }
