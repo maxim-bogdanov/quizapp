@@ -3,6 +3,7 @@ import {
   Plugin
 } from "../../framework/jquery/plugins/plugins";
 import {eventBus, setQuestionNumber, getQuestionNumber, setIsFinished, data } from '../utils/shared';
+import { Timer } from '../utils/timer';
 
 const TIME_FADING = 300;  
 
@@ -18,10 +19,10 @@ class quiz extends Plugin {
     super($element);
 
     $(eventBus)
-      .on('quiz-activated', function() {
+      .on('quiz-activated quiz-activated:only', function() {
         $element.addClass('quiz_active');
       })
-      .on('quiz-deactivated', function() {
+      .on('quiz-deactivated quiz-deactivated:only', function() {
         $element.removeClass('quiz_active');
       })
       .on('quiz-changed', fadeOutContent.bind(this) )
@@ -38,6 +39,7 @@ class quiz extends Plugin {
     const tpl = Handlebars.compile($('.__tpl',$element).text());
 
     let isFirst;
+    let timer;
 
     
     function fadeOutContent()  {
@@ -63,8 +65,15 @@ class quiz extends Plugin {
     const changeInnerPart = () => {
       let num = getQuestionNumber();
 
-      if (!isFirst) num--;
       const questionData = data.questions[num];
+
+      if (!questionData.img) {
+        $(eventBus).trigger('quiz-deactivated:only');
+        $(eventBus).trigger('quiz-nopic:activated');
+        $(eventBus).trigger('change:quiz-nopic');
+        return;
+      }
+      $(eventBus).trigger('start-timer');
       $element.empty().append(tpl(questionData));
   
       updateLinks();
@@ -74,11 +83,15 @@ class quiz extends Plugin {
 
         if (this.isCorrect($element, e.target))
           $(eventBus).trigger('change-score');
+
+        $(eventBus).trigger('stop-timer');
         
         this.showAnswers($element, e.target);
   
         $(eventBus).trigger('close-circleAnimation');
   
+        setQuestionNumber(getQuestionNumber() + 1);
+
         setTimeout(this.changePage, 1800);
       });
   

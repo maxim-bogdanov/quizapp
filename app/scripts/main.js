@@ -15,7 +15,7 @@ function onDocumentReady() {
   }
 
   let timer;
-  const TIME_AFK = 30;
+  const TIME_AFK = 60;
 
   $.getJSON('data/data.json', function (data) {
     setQuestionNumber();
@@ -42,22 +42,31 @@ function onDocumentReady() {
   });
 
   $(eventBus).on('change-quiz', function () {
-    timer.restart();
     $(eventBus).trigger('quiz-changed');
-    setQuestionNumber(getQuestionNumber() + 1);
+  });
+
+  $(eventBus).on('start-timer', function() {
+    timer.start();
+  })
+
+  $(eventBus).on('stop-timer', function() {
+    timer.stop();
     timer = new Timer(TIME_AFK);
+  })
+
+  $(eventBus).on('change:quiz-nopic', function () {
+    $(eventBus).trigger('quiz-nopic:changed');
+
   });
 
   $(eventBus).on('activate:end-screen', function () {
-    timer.restart();
     $(eventBus).trigger('quiz-deactivated');
     $(eventBus).trigger('end-screen:activated');
-    timer = new Timer(TIME_AFK);
   });
 
   $(eventBus).on('reset-page', function(){
     setScore();
-    timer.restart();
+    timer.stop();
     $(eventBus).trigger('page-reset');
   });
 }

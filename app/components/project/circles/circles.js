@@ -40,7 +40,7 @@ class Circles extends Plugin {
     });
 
 
-    $(eventBus).on('quiz-changed', function() {
+    $(eventBus).on('quiz-changed quiz-nopic:changed', function() {
       circle = $circle.eq( getQuestionNumber() );
       circle.circleProgress({
         size: 40,
@@ -60,13 +60,12 @@ class Circles extends Plugin {
 
     $(eventBus).on('close-circleAnimation', function(){
       const num = getQuestionNumber();
-      console.log('draw the line');
       circle
         .circleProgress('value', 0.75)
         .circleProgress('value', 1.0)
         setTimeout(()=>{
           console.log('draw the line');
-          $('.circle__line-full').eq( num - 1 ).addClass('circle__line-full_active');
+          $('.circle__line-full').eq( num ).addClass('circle__line-full_active');
         }, 1000 );
     });
 

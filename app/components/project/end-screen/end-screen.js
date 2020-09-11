@@ -12,6 +12,8 @@ class EndScreen extends Plugin {
 
       $(eventBus)
         .on('end-screen:activated', function() {
+          $(eventBus).trigger('start-timer');
+
           let boy = getScore() < 3 ? 'bad' : 'good';
       
           $('.end-screen__logo', $element).attr('src', data.end[boy].img);
@@ -21,6 +23,8 @@ class EndScreen extends Plugin {
           $element.addClass('end-screen_active');
         })
         .on('end-screen:deactivated', function() { 
+          $(eventBus).trigger('stop-timer');
+
           $element.removeClass('end-screen_active');
         })
         .on('page-reset', function(){

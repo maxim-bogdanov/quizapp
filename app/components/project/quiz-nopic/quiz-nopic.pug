@@ -1,17 +1,16 @@
 mixin quiz-nopic(content, params)
   .quiz-nopic&attributes(attributes)
+    |<script type="text/template" class="__tpl-nopic">
     .quiz-nopic__left
       img.quiz-nopic__redfig(src=copyright.quiz_nopic.redfigure_left)
     .quiz-nopic__right
       img.quiz-nopic__redfig(src=copyright.quiz_nopic.redfigure_right)
     .quiz-nopic__content
       .quiz-nopic__question
-        .quiz-nopic__title !{copyright.quetions[0].question}
+        .quiz-nopic__title {{question}}
         .quiz-nopic__answers
-          .quiz-nopic__answer
-            .quiz-nopic__answer-inner !{copyright.quetions[0].answers[0].answer}
-          .quiz-nopic__answer 
-            .quiz-nopic__answer-inner !{copyright.quetions[0].answers[1].answer}
-          .quiz-nopic__answer 
-            .quiz-nopic__answer-inner !{copyright.quetions[0].answers[2].answer}
+          |{{#each answers}}
+          .quiz-nopic__answer(data-isCorrect="{{this.isCorrect}}") {{this.answer}}
+          |{{/each}}
       img(src=copyright.quiz_nopic.gradient)
+    |</script>

@@ -102,13 +102,17 @@
       margin-bottom: 30px;
     }
 
-    &_correct {
+    &_incorrect {
       color: #ffffff;
 
       background-color: #db0032;
     }
 
-    &_incorrect {
+    &_disable {
+      pointer-events: none;
+    }
+
+    &_correct {
       color: #ffffff;
 
       background-color: #95a936;

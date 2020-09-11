@@ -8,10 +8,10 @@ export class Timer {
     constructor(seconds) {
         this.#seconds = seconds || 60;
         this.#time = this.#seconds;
-        this._init();
+        // this._init();
     }
 
-    _init() {
+    start() {
         this.#timer = setInterval(function () {
             if (this.#time <= 0) {
                 clearInterval(this.#timer);
@@ -23,7 +23,7 @@ export class Timer {
         }.bind(this), 1000)
     }
 
-    restart() {
+    stop() {
         clearInterval(this.#timer);
     }
 

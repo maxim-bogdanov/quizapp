@@ -13,7 +13,7 @@ class Downline extends Plugin {
       $('.downline__first',$element).addClass('downline_active');
       $('.downline__quiz',$element).removeClass('downline_active');
     })
-    .on('quiz:activated', function(data) {
+    .on('quiz-activated quiz-nopic:activated', function(data) {
       $('.downline__quiz',$element).addClass('downline_active');
       $('.downline__first',$element).removeClass('downline_active');
     })
