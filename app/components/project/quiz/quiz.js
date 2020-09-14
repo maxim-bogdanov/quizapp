@@ -6,7 +6,7 @@ import {eventBus, setQuestionNumber, getQuestionNumber, setIsFinished, data,
   isQuizActive, isQuizNopicActive, setQuizNopicActive, setQuizActive } from '../utils/shared';
 import { Timer } from '../utils/timer';
 
-const TIME_FADING = 1.5;
+const TIME_FADING = 0.4;
 const coordFade = 80;
 
 class quiz extends Plugin {
@@ -14,7 +14,7 @@ class quiz extends Plugin {
   #isFirst = false;
   #$answer;
   #$logo;
-  #$question;
+  #$title;
 
   constructor($element) {
 
@@ -30,12 +30,12 @@ class quiz extends Plugin {
       .on('quiz-changed', fadeOutContent.bind(this) )
       .on('page-reset', this.reset);
 
-    let $answer, $logo, $question;
+    let $answer, $logo, $title;
 
     const updateLinks = () => {
       $answer = this.#$answer = $('.quiz__answer', $element);
-      $logo = this.#$logo = $(".quiz__logo-inner", $element);
-      $question = this.#$question = $(".quiz__question", $element);
+      $logo = this.#$logo = $(".quiz__left", $element);
+      $title = this.#$title = $(".quiz__title", $element);
     }
 
     const tpl = Handlebars.compile($('.__tpl',$element).text());
@@ -55,19 +55,48 @@ class quiz extends Plugin {
     
       updateLinks();
 
-      let fade_time = isQuizNopicActive ? 0 : TIME_FADING;
+      if (isQuizNopicActive) {
+        gsap.to($logo,  0, {
+
+        });
+
+        gsap.to($title,  0, {
+          onComplete: changeInnerPart
+        });
   
-      //FadeOut
-      gsap.to($question,  fade_time, {
-        x: coordFade,
-        opacity: 0
-        // delay: 2
-      })
-      gsap.to($logo,  fade_time, {
-        x: -coordFade,
-        opacity: 0,
-        onComplete: changeInnerPart
-      });
+        for (let $ans of $answer) {
+          gsap.to($ans,  0, {
+
+          });
+        }
+      }
+
+      else {
+        //FadeOut
+
+        gsap.to($title,  TIME_FADING + 1.1, {
+          x: coordFade,
+          opacity: 0,
+          onComplete: changeInnerPart
+        });
+
+        gsap.to($logo,  TIME_FADING, {
+          x: -coordFade,
+          delay: TIME_FADING,
+          opacity: 0
+        });
+        
+        let timeAnswer = 0;
+
+        for (let $ans of $answer) {
+          gsap.to($ans,  TIME_FADING + 0.2, {
+            x: coordFade,
+            delay: TIME_FADING + timeAnswer,
+            opacity: 0
+          });
+          timeAnswer += 0.3;
+        }
+      }
     }
 
     const changeInnerPart = () => {
@@ -113,27 +142,42 @@ class quiz extends Plugin {
         // $(eventBus).trigger('change-quiz');
         setTimeout(() => {
           $(eventBus).trigger('change-quiz');
-        }, 1000);
+        }, 250);
       });
   
       // FadeIn
-      // gsap.from($logo, .5, { x: 0, opacity: 0, scale: 0.8});
-      // gsap.from($question, .7, {y: 50, opacity: 0, delay: .5});
-      gsap.from($question,  TIME_FADING, {
+
+      gsap.from($logo,  TIME_FADING, {
         x: -coordFade,
         opacity: 0
-      })
-      gsap.from($logo,  TIME_FADING, {
-        x: -coordFade
-      })
+      });
+
+      gsap.from($title,  TIME_FADING, {
+        x: -coordFade,
+        delay: TIME_FADING,
+        opacity: 0
+      });
+      
+      let timeAnswer = 0;
+
+      for (let $ans of $answer) {
+        gsap.from($ans,  TIME_FADING + 0.2, {
+          x: -coordFade,
+          delay: TIME_FADING + timeAnswer,
+          opacity: 0
+        });
+        timeAnswer += 0.3;
+      }
+
+
     } 
   }
 
   showAnswers($element, target){
     if (!this.isCorrect($element, target))
       $(target).addClass('quiz__answer_incorrect');
-      
-    $('.quiz__answer[data-iscorrect="true"]', $element).addClass('quiz__answer_correct');
+    else 
+      $(target).addClass('quiz__answer_correct');
   }
 
   isCorrect($element, target) {

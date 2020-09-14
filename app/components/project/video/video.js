@@ -6,7 +6,7 @@ import { eventBus, getQuestionNumber, getIsBack, setIsBack, data } from '../util
 import 'jquery-circle-progress';
 import { css } from "jquery-circle-progress";
 
-const FADING_VIDEO = 2;
+const FADING_VIDEO = 1;
 
 class Video extends Plugin {
   // eslint-disable-next-line no-useless-constructor

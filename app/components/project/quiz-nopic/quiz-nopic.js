@@ -6,7 +6,7 @@ import {eventBus, setQuestionNumber, getQuestionNumber, setIsFinished, data,
   isQuizActive, isQuizNopicActive, setQuizNopicActive, setQuizActive } from '../utils/shared';
 import { Timer } from '../utils/timer';
 
-const TIME_FADING = 1.5;  
+const TIME_FADING = 0.75;  
 const coordFade = 80;
 
 class quizNopic extends Plugin {
@@ -16,6 +16,7 @@ class quizNopic extends Plugin {
   #$logo;
   #$question;
   #$gradient;
+  #$title;
 
   constructor($element) {
 
@@ -34,14 +35,14 @@ class quizNopic extends Plugin {
         $('.quiz-nopic__content-inner', $element).empty();
       });
 
-    let $answer, $logoRight, $logoLeft, $question, $gradient;
+    let $answer, $logoRight, $logoLeft, $question, $gradient, $title;
 
     const updateLinks = () => {
       $answer = this.#$answer = $('.quiz-nopic__answer', $element);
       // $logoLeft = this.#$logo = $(".quiz-nopic__left", $element);
       // $logoRight = this.#$logo = $(".quiz-nopic__right", $element);
       // $gradient = this.#$gradient = $(".quiz-nopic__content-gradient", $element);
-      $question = this.#$question = $(".quiz-nopic__question", $element);
+      $title = this.#$title = $(".quiz-nopic__title", $element);
     }
 
     const tpl = Handlebars.compile($('.__tpl',$element).text());
@@ -58,27 +59,43 @@ class quizNopic extends Plugin {
           isFirst = false;
           return;
       }
-
-      console.log( isFirst );
     
       updateLinks();
   
       //FadeOut
-      // gsap.to($logoLeft,  0.2, { opacity: 0 });
-      // gsap.to($logoRight,  0.2, { opacity: 0 });
-      // gsap.to($gradient,  0.2, { opacity: 0 });
-      // gsap.to($question,  0.3, {
-      //     opacity: 0,
-      //     delay: 0.2,
-      //     onComplete: changeInnerPart
-      // })
-      let fade_time = isQuizActive ? 0 : TIME_FADING;
-      gsap.to($question,  fade_time, {
-        x: coordFade,
-        opacity: 0,
-        // delay: 2,
-        onComplete: changeInnerPart
-      })
+
+      if (isQuizActive) {
+        gsap.to($title,  0, {
+          onComplete: changeInnerPart
+        });
+  
+        for (let $ans of $answer) {
+          gsap.to($ans,  0, {
+
+          });
+        }
+      }
+      else {
+
+        gsap.to($title,  TIME_FADING + 0.9, {
+          x: coordFade,
+          delay: TIME_FADING,
+          opacity: 0,
+          onComplete: changeInnerPart
+        });
+        
+        let timeAnswer = 0;
+
+        for (let $ans of $answer) {
+          gsap.to($ans,  TIME_FADING + 0.2, {
+            x: coordFade,
+            delay: TIME_FADING + timeAnswer,
+            opacity: 0
+          });
+          timeAnswer += 0.3;
+        }
+        
+      }
     }
 
     const changeInnerPart = () => {
@@ -91,11 +108,8 @@ class quizNopic extends Plugin {
       let num = getQuestionNumber();
       
       const questionData = data.questions[num];
-      // $element.empty().append(tpl(questionData));
 
       $('.quiz-nopic__content-inner', $element).empty().append(tpl(questionData));
-      // $('.quiz-nopic__content', $element).append('<img class="quiz-nopic__content-gradient"src="images/water/gradient-first.png">');
-      // $('.quiz-nopic__content-gradient', $element).attr('style','');
 
       if (questionData.img) {
         setQuizNopicActive(true);
@@ -125,21 +139,28 @@ class quizNopic extends Plugin {
 
         setQuestionNumber(getQuestionNumber() + 1);
   
-        // $(eventBus).trigger('change:quiz-nopic');
         setTimeout(() => {
           $(eventBus).trigger('change:quiz-nopic');
-        }, 1000);
+        }, 250);
       });
   
       // FadeIn
-      // gsap.from($logoLeft, .5, { x: 0, opacity: 0, scale: 0.8});
-      // gsap.from($logoRight, .5, { x: 0, opacity: 0, scale: 0.8});
-      // gsap.from($gradient, .7, {y: 50, opacity: 0, delay: .5});
-      // gsap.from($question, .7, {y: 50, opacity: 0, delay: .5});
-      gsap.from($question,  TIME_FADING, {
+      gsap.from($title,  TIME_FADING, {
         x: -coordFade,
         opacity: 0
-      })
+      });
+      
+      let timeAnswer = 0;
+
+      for (let $ans of $answer) {
+        gsap.from($ans,  TIME_FADING + 0.2, {
+          x: -coordFade,
+          delay: timeAnswer,
+          opacity: 0
+        });
+        timeAnswer += 0.3;
+      }
+
   
     } 
   }
@@ -147,8 +168,8 @@ class quizNopic extends Plugin {
   showAnswers($element, target){
     if (!this.isCorrect($element, target))
       $(target).addClass('quiz-nopic__answer_incorrect');
-      
-    $('.quiz-nopic__answer[data-iscorrect="true"]', $element).addClass('quiz-nopic__answer_correct');
+    else 
+      $(target).addClass('quiz-nopic__answer_correct');
   }
 
   isCorrect($element, target) {

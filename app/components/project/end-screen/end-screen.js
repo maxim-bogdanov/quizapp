@@ -4,6 +4,8 @@ import {
 } from "../../framework/jquery/plugins/plugins";
 import {eventBus, setQuestionNumber, getQuestionNumber, getScore, data } from '../../project/utils/shared';
 
+const TIME_FADING = 0.75;
+
 class EndScreen extends Plugin {
   // eslint-disable-next-line no-useless-constructor
   constructor($element) {
@@ -25,17 +27,17 @@ class EndScreen extends Plugin {
         $text.html(data.end[boy].text);
 
         //FadeIn
-        gsap.fromTo($logo,  1.5, {
+        gsap.fromTo($logo,  TIME_FADING, {
           opacity: 0
         }, {
           opacity: 1
         });
-        gsap.fromTo($title,  1.5, {
+        gsap.fromTo($title,  TIME_FADING, {
           opacity: 0
         }, {
           opacity: 1
         });
-        gsap.fromTo($text,  1.5, {
+        gsap.fromTo($text,  TIME_FADING, {
           opacity: 0
         }, {
           opacity: 1
@@ -45,13 +47,13 @@ class EndScreen extends Plugin {
       })
       .on('end-screen:deactivated', function() { 
         //FadeOut
-        gsap.to($logo,  1.5, {
+        gsap.to($logo,  TIME_FADING, {
           opacity: 0
         })
-        gsap.to($title,  1.5, {
+        gsap.to($title,  TIME_FADING, {
           opacity: 0
         })
-        gsap.to($text,  1.5, {
+        gsap.to($text,  TIME_FADING, {
           opacity: 0
         })
 

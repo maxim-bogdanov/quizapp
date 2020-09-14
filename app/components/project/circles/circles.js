@@ -50,7 +50,7 @@ class Circles extends Plugin {
         reverse: true,
         animation: false,
         lineCap: "round",
-        animation: { duration: 1200},
+        animation: { duration: 600},
         fill: {color: '#fff'}
       })
 

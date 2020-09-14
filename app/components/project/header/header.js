@@ -5,6 +5,8 @@ import {
 import { eventBus, getScore, getQuestionNumber, getIsFinished, setIsBack } from "../utils/shared";
 import { get, data } from "jquery";
 
+const TIME_FADING = 0.75; 
+
 class Header extends Plugin {
   // eslint-disable-next-line no-useless-constructor
   constructor($element) {
@@ -14,7 +16,7 @@ class Header extends Plugin {
       let $headerBack = $('.header__back', $element);
       $headerBack.addClass('header__back_active');
       $('.header__score', $element).addClass('header__score_active');
-      gsap.from($headerBack,  1.5, {
+      gsap.from($headerBack,  TIME_FADING, {
         x: 230
       })
     })
