@@ -2,7 +2,7 @@ import {
   registerPlugins,
   Plugin
 } from "../../framework/jquery/plugins/plugins";
-import { eventBus, getQuestionNumber, getIsBack, setIsBack } from '../utils/shared';
+import { eventBus, getQuestionNumber } from '../utils/shared';
 import 'jquery-circle-progress';
 import { css } from "jquery-circle-progress";
 
@@ -34,14 +34,10 @@ class Circles extends Plugin {
       // $circle.circleProgress({
       //   size: 0
       // });
-      // var canvas = document.getElementsByClassName("circle__full")[0];
-      // var ctx = canvas.getContext("2d");
-      // ctx.clearRect(10, 10, 100, 100);
     });
 
 
     $(eventBus).on('circle-quiz', function() {
-      console.log('circle');
       circle = $circle.eq( getQuestionNumber() );
       circle.circleProgress({
         size: 40,
@@ -65,14 +61,12 @@ class Circles extends Plugin {
         .circleProgress('value', 0.75)
         .circleProgress('value', 1.0)
         setTimeout(()=>{
-          console.log('draw the line');
           $('.circle__line-full').eq( num ).addClass('circle__line-full_active');
         }, 700 );
     });
 
   
   }
-
 
 }
 

@@ -61,7 +61,7 @@ class EndScreen extends Plugin {
 
         setTimeout(() => {
           $element.removeClass('end-screen_active');
-        }, 1500);
+        }, TIME_FADING * 1000);
       })
       .on('page-reset', function(){
         $(eventBus).trigger('end-screen:deactivated');

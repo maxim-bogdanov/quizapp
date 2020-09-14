@@ -2,8 +2,8 @@ import {
   registerPlugins,
   Plugin
 } from "../../framework/jquery/plugins/plugins";
-import {eventBus, setQuestionNumber, getQuestionNumber, setIsFinished, data,
-  isQuizActive, isQuizNopicActive, setQuizNopicActive, setQuizActive } from '../utils/shared';
+import {eventBus, setQuestionNumber, getQuestionNumber, data,
+  isQuizActive, setQuizNopicActive, setQuizActive } from '../utils/shared';
 import { Timer } from '../utils/timer';
 
 const TIME_FADING = 0.75;  
@@ -13,9 +13,6 @@ class quizNopic extends Plugin {
 
   #isFirst = false;
   #$answer;
-  #$logo;
-  #$question;
-  #$gradient;
   #$title;
 
   constructor($element) {
@@ -35,21 +32,16 @@ class quizNopic extends Plugin {
         $('.quiz-nopic__content-inner', $element).empty();
       });
 
-    let $answer, $logoRight, $logoLeft, $question, $gradient, $title;
+    let $answer, $title;
 
     const updateLinks = () => {
       $answer = this.#$answer = $('.quiz-nopic__answer', $element);
-      // $logoLeft = this.#$logo = $(".quiz-nopic__left", $element);
-      // $logoRight = this.#$logo = $(".quiz-nopic__right", $element);
-      // $gradient = this.#$gradient = $(".quiz-nopic__content-gradient", $element);
       $title = this.#$title = $(".quiz-nopic__title", $element);
     }
 
     const tpl = Handlebars.compile($('.__tpl',$element).text());
 
     let isFirst;
-    let timer;
-
     
     function fadeOutContent()  {
       isFirst = this.#isFirst = getQuestionNumber() ? false : true;
@@ -63,21 +55,17 @@ class quizNopic extends Plugin {
       updateLinks();
   
       //FadeOut
-
       if (isQuizActive) {
         gsap.to($title,  0, {
           onComplete: changeInnerPart
         });
   
         for (let $ans of $answer) {
-          gsap.to($ans,  0, {
-
-          });
+          gsap.to($ans,  0, {});
         }
       }
       else {
-
-        gsap.to($title,  TIME_FADING + 0.9, {
+        gsap.to($title,  TIME_FADING + 0.3 * data.questions.length, {
           x: coordFade,
           delay: TIME_FADING,
           opacity: 0,
@@ -85,7 +73,7 @@ class quizNopic extends Plugin {
         });
         
         let timeAnswer = 0;
-
+  
         for (let $ans of $answer) {
           gsap.to($ans,  TIME_FADING + 0.2, {
             x: coordFade,
@@ -94,8 +82,8 @@ class quizNopic extends Plugin {
           });
           timeAnswer += 0.3;
         }
-        
       }
+
     }
 
     const changeInnerPart = () => {
@@ -112,10 +100,7 @@ class quizNopic extends Plugin {
       $('.quiz-nopic__content-inner', $element).empty().append(tpl(questionData));
 
       if (questionData.img) {
-        setQuizNopicActive(true);
-        $(eventBus).trigger('quiz-activated:only');
-        $(eventBus).trigger('quiz-nopic:deactivated');
-        $(eventBus).trigger('change-quiz');
+        this.goQuiz();
         return;
       }
 
@@ -160,9 +145,16 @@ class quizNopic extends Plugin {
         });
         timeAnswer += 0.3;
       }
-
   
     } 
+  }
+
+
+  goQuiz() {
+    setQuizNopicActive(true);
+    $(eventBus).trigger('quiz-activated:only');
+    $(eventBus).trigger('quiz-nopic:deactivated');
+    $(eventBus).trigger('change-quiz');
   }
 
   showAnswers($element, target){
@@ -181,7 +173,6 @@ class quizNopic extends Plugin {
   }
 
   goEndScreen() {
-    setIsFinished(true);
     $(eventBus).trigger('activate:end-screen');
   }
 

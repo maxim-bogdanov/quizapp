@@ -2,7 +2,7 @@ import {
   registerPlugins,
   Plugin
 } from "../../framework/jquery/plugins/plugins";
-import { eventBus, getScore, getQuestionNumber, getIsFinished, setIsBack } from "../utils/shared";
+import { eventBus, getScore } from "../utils/shared";
 import { get, data } from "jquery";
 
 const TIME_FADING = 0.75; 
@@ -39,7 +39,6 @@ class Header extends Plugin {
     });
 
     $('.header__back', $element).on('click', function(e, data){
-      setIsBack(true);
       $(eventBus).trigger('reset-page');
     });
 

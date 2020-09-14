@@ -40,26 +40,6 @@ export function getScore(){
     return score;
 }
 
-let isFinished = false;
-export function setIsFinished(_isFinished){
-    isFinished = _isFinished || false;
-}
-
-//
-export function getIsFinished(){
-    return isFinished;
-}
-
-let isBack = false;
-export function setIsBack(_isBack){
-    isBack = _isBack || false;
-}
-
-//
-export function getIsBack(){
-    return isBack;
-}
-
 export let isQuizActive = false;
 
 export function setQuizActive(_isQuizActive){

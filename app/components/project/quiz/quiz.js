@@ -2,9 +2,8 @@ import {
   registerPlugins,
   Plugin
 } from "../../framework/jquery/plugins/plugins";
-import {eventBus, setQuestionNumber, getQuestionNumber, setIsFinished, data,
-  isQuizActive, isQuizNopicActive, setQuizNopicActive, setQuizActive } from '../utils/shared';
-import { Timer } from '../utils/timer';
+import {eventBus, setQuestionNumber, getQuestionNumber, data,
+  isQuizNopicActive, setQuizNopicActive, setQuizActive } from '../utils/shared';
 
 const TIME_FADING = 0.4;
 const coordFade = 80;
@@ -28,7 +27,9 @@ class quiz extends Plugin {
         $element.removeClass('quiz_active');
       })
       .on('quiz-changed', fadeOutContent.bind(this) )
-      .on('page-reset', this.reset);
+      .on('page-reset', function(){
+        $(eventBus).trigger('quiz-deactivated');
+      });
 
     let $answer, $logo, $title;
 
@@ -41,8 +42,6 @@ class quiz extends Plugin {
     const tpl = Handlebars.compile($('.__tpl',$element).text());
 
     let isFirst;
-    let timer;
-
     
     function fadeOutContent()  {
       isFirst = this.#isFirst = getQuestionNumber() ? false : true;
@@ -55,26 +54,20 @@ class quiz extends Plugin {
     
       updateLinks();
 
+      //FadeOut
       if (isQuizNopicActive) {
-        gsap.to($logo,  0, {
-
-        });
+        gsap.to($logo,  0, {});
 
         gsap.to($title,  0, {
           onComplete: changeInnerPart
         });
   
         for (let $ans of $answer) {
-          gsap.to($ans,  0, {
-
-          });
+          gsap.to($ans,  0, {});
         }
       }
-
       else {
-        //FadeOut
-
-        gsap.to($title,  TIME_FADING + 1.1, {
+        gsap.to($title,  TIME_FADING + 0.3 * data.questions.length + 0.2, {
           x: coordFade,
           opacity: 0,
           onComplete: changeInnerPart
@@ -111,16 +104,14 @@ class quiz extends Plugin {
       const questionData = data.questions[num];
 
       if (!questionData.img) {
-        setQuizActive(true);
-        $(eventBus).trigger('quiz-deactivated:only');
-        $(eventBus).trigger('quiz-nopic:activated');
-        $(eventBus).trigger('change:quiz-nopic');
+        this.goQuizNopic();
         return;
       }
       setQuizNopicActive(false);
 
       $(eventBus).trigger('circle-quiz');
       $(eventBus).trigger('start-timer');
+
       $element.empty().append(tpl(questionData));
   
       updateLinks();
@@ -168,9 +159,14 @@ class quiz extends Plugin {
         });
         timeAnswer += 0.3;
       }
-
-
     } 
+  }
+
+  goQuizNopic() {
+    setQuizActive(true);
+    $(eventBus).trigger('quiz-deactivated:only');
+    $(eventBus).trigger('quiz-nopic:activated');
+    $(eventBus).trigger('change:quiz-nopic');
   }
 
   showAnswers($element, target){
@@ -189,12 +185,7 @@ class quiz extends Plugin {
   }
 
   goEndScreen() {
-    setIsFinished(true);
     $(eventBus).trigger('activate:end-screen');
-  }
-
-  reset($element) {
-    $(eventBus).trigger('quiz-deactivated');
   }
 
 }

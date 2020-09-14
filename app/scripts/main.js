@@ -1,7 +1,7 @@
 import '../components/project/project';
 import '../components/project/circles/circles';
-import { eventBus, setQuestionNumber, getQuestionNumber, setScore,
-   getScore, setIsFinished, getIsFinished, setData } from '../components/project/utils/shared';
+import { eventBus, setQuestionNumber, setScore,
+   getScore, setData } from '../components/project/utils/shared';
 import { Timer } from '../components/project/utils/timer';
 
 global.jQuery = global.$ = $;
@@ -35,7 +35,6 @@ function onDocumentReady() {
 
   $(eventBus).on('activate-quiz', function () {
     setQuestionNumber();
-    setIsFinished();
     $(eventBus).trigger('video:deactivated');
     $(eventBus).trigger('quiz-activated');
     timer = new Timer(TIME_AFK);
@@ -56,7 +55,6 @@ function onDocumentReady() {
 
   $(eventBus).on('change:quiz-nopic', function () {
     $(eventBus).trigger('quiz-nopic:changed');
-
   });
 
   $(eventBus).on('activate:end-screen', function () {

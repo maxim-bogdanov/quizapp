@@ -112,9 +112,11 @@
       justify-content: center;
       align-items: center;
 
-      &_end { // последняя страница
-        transform: scale(2.11);
+      &_end {
         margin-top: 83px;
+        // последняя страница
+
+        transform: scale(2.11);
       }
     }
 
@@ -147,8 +149,5 @@
 
       transform: translateX(-50%);
     }
-
   }
-
-
 }

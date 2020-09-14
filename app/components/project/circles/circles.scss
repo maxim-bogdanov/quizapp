@@ -1,93 +1,83 @@
 .circles {
+  position: absolute;
+  bottom: 59px;
+  left: 50%;
+  z-index: 10;
+
+  display: none;
+  justify-content: space-between;
+  align-items: center;
+  width: 480px;
+
+  color: #ffffff;
+
+  transform: translateX(-50%);
   // Константы
   @mixin mod($mod) {
-    @include modifier("circles", $mod){
+    @include modifier("circles", $mod) {
       @content;
     }
   }
-  width: 480px;
-  display: none;
-  align-items: center;
-  justify-content: space-between;
-  color: #fff;
-
-  position: absolute;
-  z-index: 10;
-  bottom: 59px;
-  left: 50%;
-  transform: translateX(-50%);
 
   &_active {
     display: flex;
   }
 
   .circle {
-    width: 40px;
-    height: 40px;
     position: relative;
 
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
 
     &__inner {
-      font-family: 'Cera Bold', sans-serif;
       font-size: 28px;
+      font-family: "Cera Bold", sans-serif;
     }
 
     &__line {
-
-
-
       &-opacity {
         position: absolute;
-        z-index: 1;
-        left: 100%;
         top: 50%;
-        transform: translateY(-50%);
+        left: 100%;
+        z-index: 1;
 
         width: 69px;
-        height: 0px;
+        height: 0;
 
-        border-top: 1px solid rgba($color: #fff, $alpha: 0.3);
-        // background-color: #fff;
-
-        // &:last-child {
-        //   width: 0;
-        //   border-top: 0;
-        // }
+        border-top: 1px solid rgba($color: #ffffff, $alpha: 0.3);
+        transform: translateY(-50%);
 
         &_last {
           width: 0;
+
           border-top: 0;
         }
       }
-      
-
-
 
       &-full {
         position: absolute;
+        top: 50%;
+        left: 100%;
         z-index: 2;
 
-        left: 100%;
-        top: 50%;
+        width: 0;
+        height: 0;
+
+        border-top: 0 solid #ffffff;
         transform: translateY(-50%);
-
-        width: 0px;
-        height: 0px;
-
-        border-top: 0px solid #fff;
-
         opacity: 1;
-      
-        transition: width 700ms ease-in-out;	
+
+        transition: width 1500ms ease-in-out;
 
         &_active {
-          border-top: 1px solid #fff;
           width: 69px;
+
+          border-top: 1px solid #ffffff;
         }
-        
+
         &_last {
           width: 0;
         }
@@ -95,25 +85,33 @@
     }
 
 
-
-
-    &::before {
-      content: '';
+    &__dotted {
       position: absolute;
-      z-index: 2;
-      left: 50%;
       top: 50%;
+      left: 50%;
+      z-index: 2;
 
-      width: 40px;
-      height: 40px;
-
-      transform: translate(-50%, -50%);
-      width: 35px;
-      height: 35px;
-      border: 2.5px dotted #fff;
       background-color: trasnporent;
-      border-radius: 50%;
-      opacity: 0.3;
+      transform: translate(-50%, -50%);
+
+      &-inner {
+        width: 35px;
+        height: 35px;
+
+        border: 2.5px dotted #ffffff;
+        border-radius: 50%;
+        opacity: 0.3;
+
+        transition: rotate 0.5s ease;
+        animation: rotate 5s linear infinite;
+
+
+        @keyframes rotate {
+          from {
+            transform: rotate(-360deg);
+          }
+        }
+      }
     }
 
     &__full {
@@ -121,6 +119,4 @@
       z-index: 3;
     }
   }
-
-
 }

@@ -19,7 +19,6 @@ export class Timer {
                 return;
             }
             this.#time--;
-            console.log(this.#time);
         }.bind(this), 1000)
     }
 

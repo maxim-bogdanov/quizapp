@@ -1,12 +1,11 @@
 .quiz {
-
   position: absolute;
   z-index: 1;
 
-  height: 100vh;
   width: 100vw;
+  height: 100vh;
 
-  background-color: #000;
+  background-color: #000000;
   // Константы
   @mixin mod($mod) {
     @include modifier("quiz", $mod) {
@@ -21,7 +20,6 @@
   &__left {
     position: absolute;
     z-index: 2;
-    // background-color: green;
   }
   &__line {
     position: absolute;
@@ -31,19 +29,15 @@
     color: white;
   }
   &__redfig {
-    // height: 100vh;
     width: 50vw;
   }
   &__content {
     position: absolute;
     right: 0;
     z-index: 1;
-    height: 1080px;
+
     width: 1158px;
-    img {
-      // width: 66vw;
-      // height: 100vh;
-    }
+    height: 1080px;
   }
   &__title {
     margin-bottom: 32px;
@@ -55,7 +49,6 @@
   }
   &__question {
     position: absolute;
-
     top: 50%;
     left: 50%;
 

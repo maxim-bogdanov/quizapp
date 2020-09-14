@@ -1,14 +1,11 @@
 .end-screen {
-
-  // display: none;
-
   position: absolute;
   z-index: 1;
 
-  height: 100vh;
   width: 100vw;
+  height: 100vh;
 
-  background-color: #000;
+  background-color: #000000;
   // Константы
   @mixin mod($mod) {
     @include modifier("first-screen", $mod) {
@@ -33,22 +30,19 @@
   }
   &__redfig {
     width: 50vw;
-    // height: 100vh;
   }
   &__right {
     position: absolute;
     left: 524px;
     z-index: 1;
+
     height: 100vh;
-    img {
-      // width: 66vw;
-      // height: 100vh;
-    }
   }
   &__inner {
     position: absolute;
-    left: 63%;
     top: 49%;
+    left: 63%;
+
     transform: translate(-50%, -50%);
   }
   &__title {
@@ -58,11 +52,12 @@
     color: #f2f2f2;
   }
   &__text {
-    font-size: 52px;
     width: 680px;
+
+    font-size: 52px;
     font-family: "Glober Regular", sans-serif;
     text-align: center;
-    color: #f2f2f2;  
+    color: #f2f2f2;
   }
   &__logo {
     position: absolute;

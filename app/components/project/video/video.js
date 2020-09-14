@@ -2,7 +2,7 @@ import {
   registerPlugins,
   Plugin
 } from "../../framework/jquery/plugins/plugins";
-import { eventBus, getQuestionNumber, getIsBack, setIsBack, data } from '../utils/shared';
+import { eventBus } from '../utils/shared';
 import 'jquery-circle-progress';
 import { css } from "jquery-circle-progress";
 
