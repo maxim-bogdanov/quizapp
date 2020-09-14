@@ -67,7 +67,7 @@ class Circles extends Plugin {
         setTimeout(()=>{
           console.log('draw the line');
           $('.circle__line-full').eq( num ).addClass('circle__line-full_active');
-        }, 1000 );
+        }, 700 );
     });
 
   

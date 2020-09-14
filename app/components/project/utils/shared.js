@@ -59,3 +59,17 @@ export function setIsBack(_isBack){
 export function getIsBack(){
     return isBack;
 }
+
+export let isQuizActive = false;
+
+export function setQuizActive(_isQuizActive){
+    isQuizActive = _isQuizActive || false;
+}
+
+//
+
+export let isQuizNopicActive = false;
+
+export function setQuizNopicActive(_isQuizNopicActive){
+    isQuizNopicActive = _isQuizNopicActive || false;
+}

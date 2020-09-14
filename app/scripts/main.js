@@ -61,6 +61,7 @@ function onDocumentReady() {
 
   $(eventBus).on('activate:end-screen', function () {
     $(eventBus).trigger('quiz-deactivated');
+    $(eventBus).trigger('quiz-nopic:deactivated');
     $(eventBus).trigger('end-screen:activated');
   });
 

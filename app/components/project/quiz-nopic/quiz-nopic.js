@@ -2,11 +2,12 @@ import {
   registerPlugins,
   Plugin
 } from "../../framework/jquery/plugins/plugins";
-import {eventBus, setQuestionNumber, getQuestionNumber, setIsFinished, data } from '../utils/shared';
+import {eventBus, setQuestionNumber, getQuestionNumber, setIsFinished, data,
+  isQuizActive, isQuizNopicActive, setQuizNopicActive, setQuizActive } from '../utils/shared';
 import { Timer } from '../utils/timer';
 
-const TIME_FADING = 300;  
-const coordFade = 230;
+const TIME_FADING = 1.5;  
+const coordFade = 80;
 
 class quizNopic extends Plugin {
 
@@ -57,6 +58,8 @@ class quizNopic extends Plugin {
           isFirst = false;
           return;
       }
+
+      console.log( isFirst );
     
       updateLinks();
   
@@ -69,16 +72,21 @@ class quizNopic extends Plugin {
       //     delay: 0.2,
       //     onComplete: changeInnerPart
       // })
-      gsap.to($question,  1.5, {
+      let fade_time = isQuizActive ? 0 : TIME_FADING;
+      gsap.to($question,  fade_time, {
         x: coordFade,
         opacity: 0,
+        // delay: 2,
         onComplete: changeInnerPart
       })
     }
 
     const changeInnerPart = () => {
-      setQuestionNumber(getQuestionNumber());
-      
+
+      if (this.isLastQuiz()) {
+        this.goEndScreen();
+        return;
+      }
 
       let num = getQuestionNumber();
       
@@ -90,18 +98,17 @@ class quizNopic extends Plugin {
       // $('.quiz-nopic__content-gradient', $element).attr('style','');
 
       if (questionData.img) {
+        setQuizNopicActive(true);
         $(eventBus).trigger('quiz-activated:only');
         $(eventBus).trigger('quiz-nopic:deactivated');
         $(eventBus).trigger('change-quiz');
         return;
       }
+
+      setQuizActive(false);
+
       $(eventBus).trigger('circle-quiz');
-      $(eventBus).trigger('start-timer');
-
-
-      console.log(tpl(questionData));
-
-  
+      $(eventBus).trigger('start-timer'); 
       updateLinks();
       
       $answer.on('click', (e)=> { 
@@ -118,7 +125,10 @@ class quizNopic extends Plugin {
 
         setQuestionNumber(getQuestionNumber() + 1);
   
-        setTimeout(this.changePage, 1200);
+        // $(eventBus).trigger('change:quiz-nopic');
+        setTimeout(() => {
+          $(eventBus).trigger('change:quiz-nopic');
+        }, 1000);
       });
   
       // FadeIn
@@ -126,7 +136,7 @@ class quizNopic extends Plugin {
       // gsap.from($logoRight, .5, { x: 0, opacity: 0, scale: 0.8});
       // gsap.from($gradient, .7, {y: 50, opacity: 0, delay: .5});
       // gsap.from($question, .7, {y: 50, opacity: 0, delay: .5});
-      gsap.from($question,  1.5, {
+      gsap.from($question,  TIME_FADING, {
         x: -coordFade,
         opacity: 0
       })
@@ -145,14 +155,13 @@ class quizNopic extends Plugin {
     return $(target, $element).data('iscorrect');
   }
 
-  changePage() {
-    if (getQuestionNumber() !== data.questions.length) {
-      $(eventBus).trigger('change:quiz-nopic');
-    }
-    else {
-      setIsFinished(true);
-      $(eventBus).trigger('activate:end-screen');
-    }
+  isLastQuiz() {
+    return getQuestionNumber() === data.questions.length;
+  }
+
+  goEndScreen() {
+    setIsFinished(true);
+    $(eventBus).trigger('activate:end-screen');
   }
 
 }

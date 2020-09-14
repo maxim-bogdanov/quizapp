@@ -9,27 +9,61 @@ class EndScreen extends Plugin {
   constructor($element) {
     super($element);
 
+    let $logo, $title, $text;
+    $(eventBus)
+      .on('end-screen:activated', function() {
+        $(eventBus).trigger('start-timer');
 
-      $(eventBus)
-        .on('end-screen:activated', function() {
-          $(eventBus).trigger('start-timer');
+        let boy = getScore() < 3 ? 'bad' : 'good';
 
-          let boy = getScore() < 3 ? 'bad' : 'good';
-      
-          $('.end-screen__logo', $element).attr('src', data.end[boy].img);
-          $('.end-screen__title', $element).html(data.end[boy].title);
-          $('.end-screen__text', $element).html(data.end[boy].text);
+        $logo = $('.end-screen__logo', $element);
+        $title = $('.end-screen__title', $element);
+        $text = $('.end-screen__text', $element);
     
-          $element.addClass('end-screen_active');
-        })
-        .on('end-screen:deactivated', function() { 
-          $(eventBus).trigger('stop-timer');
+        $logo.attr('src', data.end[boy].img);
+        $title.html(data.end[boy].title);
+        $text.html(data.end[boy].text);
 
+        //FadeIn
+        gsap.fromTo($logo,  1.5, {
+          opacity: 0
+        }, {
+          opacity: 1
+        });
+        gsap.fromTo($title,  1.5, {
+          opacity: 0
+        }, {
+          opacity: 1
+        });
+        gsap.fromTo($text,  1.5, {
+          opacity: 0
+        }, {
+          opacity: 1
+        });
+  
+        $element.addClass('end-screen_active');
+      })
+      .on('end-screen:deactivated', function() { 
+        //FadeOut
+        gsap.to($logo,  1.5, {
+          opacity: 0
+        })
+        gsap.to($title,  1.5, {
+          opacity: 0
+        })
+        gsap.to($text,  1.5, {
+          opacity: 0
+        })
+
+        $(eventBus).trigger('stop-timer');
+
+        setTimeout(() => {
           $element.removeClass('end-screen_active');
-        })
-        .on('page-reset', function(){
-          $(eventBus).trigger('end-screen:deactivated');
-        })
+        }, 1500);
+      })
+      .on('page-reset', function(){
+        $(eventBus).trigger('end-screen:deactivated');
+      })
 
   }
 }

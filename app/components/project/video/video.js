@@ -40,7 +40,7 @@ class Video extends Plugin {
           $('.video__btn-close', $element).addClass('video__btn-close_active');
         }, FADING_VIDEO * 1000);
 
-      })
+      }.bind(this))
       .on('video:deactivated', function(){
         $($element).removeClass('video_active');
         $('.video-media',$element).removeClass('video-media_active');
@@ -56,6 +56,7 @@ class Video extends Plugin {
   }
 
   closeVideo() {
+    video.pause();
     $(eventBus).trigger('activate-quiz');
     $(eventBus).trigger('first-screen:deactivated');
     $(eventBus).trigger('circle-quiz');

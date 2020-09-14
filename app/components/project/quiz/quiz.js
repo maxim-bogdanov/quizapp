@@ -2,11 +2,12 @@ import {
   registerPlugins,
   Plugin
 } from "../../framework/jquery/plugins/plugins";
-import {eventBus, setQuestionNumber, getQuestionNumber, setIsFinished, data } from '../utils/shared';
+import {eventBus, setQuestionNumber, getQuestionNumber, setIsFinished, data,
+  isQuizActive, isQuizNopicActive, setQuizNopicActive, setQuizActive } from '../utils/shared';
 import { Timer } from '../utils/timer';
 
-const TIME_FADING = 300;
-const coordFade = 230;
+const TIME_FADING = 1.5;
+const coordFade = 80;
 
 class quiz extends Plugin {
 
@@ -33,7 +34,7 @@ class quiz extends Plugin {
 
     const updateLinks = () => {
       $answer = this.#$answer = $('.quiz__answer', $element);
-      $logo = this.#$logo = $(".quiz__left", $element);
+      $logo = this.#$logo = $(".quiz__logo-inner", $element);
       $question = this.#$question = $(".quiz__question", $element);
     }
 
@@ -53,31 +54,42 @@ class quiz extends Plugin {
       }
     
       updateLinks();
+
+      let fade_time = isQuizNopicActive ? 0 : TIME_FADING;
   
       //FadeOut
-      gsap.to($question,  1.5, {
+      gsap.to($question,  fade_time, {
         x: coordFade,
         opacity: 0
+        // delay: 2
       })
-      gsap.to($logo,  1.5, {
+      gsap.to($logo,  fade_time, {
         x: -coordFade,
         opacity: 0,
         onComplete: changeInnerPart
-      })
+      });
     }
 
     const changeInnerPart = () => {
-      let num = getQuestionNumber();
-      
+
+      if (this.isLastQuiz()) {
+        this.goEndScreen();
+        return;
+      }
+
+      let num = getQuestionNumber();   
 
       const questionData = data.questions[num];
 
       if (!questionData.img) {
+        setQuizActive(true);
         $(eventBus).trigger('quiz-deactivated:only');
         $(eventBus).trigger('quiz-nopic:activated');
         $(eventBus).trigger('change:quiz-nopic');
         return;
       }
+      setQuizNopicActive(false);
+
       $(eventBus).trigger('circle-quiz');
       $(eventBus).trigger('start-timer');
       $element.empty().append(tpl(questionData));
@@ -98,17 +110,20 @@ class quiz extends Plugin {
   
         setQuestionNumber(getQuestionNumber() + 1);
 
-        setTimeout(this.changePage, 1200);
+        // $(eventBus).trigger('change-quiz');
+        setTimeout(() => {
+          $(eventBus).trigger('change-quiz');
+        }, 1000);
       });
   
       // FadeIn
       // gsap.from($logo, .5, { x: 0, opacity: 0, scale: 0.8});
       // gsap.from($question, .7, {y: 50, opacity: 0, delay: .5});
-      gsap.from($question,  1.5, {
+      gsap.from($question,  TIME_FADING, {
         x: -coordFade,
         opacity: 0
       })
-      gsap.from($logo,  1.5, {
+      gsap.from($logo,  TIME_FADING, {
         x: -coordFade
       })
     } 
@@ -125,14 +140,13 @@ class quiz extends Plugin {
     return $(target, $element).data('iscorrect');
   }
 
-  changePage() {
-    if (getQuestionNumber() !== data.questions.length) {
-      $(eventBus).trigger('change-quiz');
-    }
-    else {
-      setIsFinished(true);
-      $(eventBus).trigger('activate:end-screen');
-    }
+  isLastQuiz() {
+    return getQuestionNumber() === data.questions.length;
+  }
+
+  goEndScreen() {
+    setIsFinished(true);
+    $(eventBus).trigger('activate:end-screen');
   }
 
   reset($element) {

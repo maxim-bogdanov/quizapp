@@ -1,4 +1,10 @@
+img {
+  pointer-events: none;
+}
 
+* {
+  user-select: none;
+}
 
 .page {
   .tingle-enabled & {

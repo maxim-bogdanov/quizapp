@@ -21,6 +21,7 @@
   &__left {
     position: absolute;
     z-index: 2;
+    // background-color: green;
   }
   &__line {
     position: absolute;
@@ -37,7 +38,8 @@
     position: absolute;
     right: 0;
     z-index: 1;
-    height: 100vh;
+    height: 1080px;
+    width: 1158px;
     img {
       // width: 66vw;
       // height: 100vh;
@@ -53,6 +55,7 @@
   }
   &__question {
     position: absolute;
+
     top: 50%;
     left: 50%;
 
